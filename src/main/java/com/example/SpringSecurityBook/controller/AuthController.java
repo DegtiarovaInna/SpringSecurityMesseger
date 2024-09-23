@@ -4,6 +4,7 @@ import com.example.SpringSecurityBook.model.AppUser;
 import com.example.SpringSecurityBook.service.AppUserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,9 @@ public class AuthController {
   //  private final JwtSecurityService jwtSecurityService;
 
     @PostMapping("/register")
-    public ResponseEntity<AppUser> register(@RequestBody RegisterRequestDto registerRequestDto) {
-        return ResponseEntity.ok(authService.register(registerRequestDto));
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
+        RegisterResponseDto responseDto = authService.register(registerRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PostMapping("/login")

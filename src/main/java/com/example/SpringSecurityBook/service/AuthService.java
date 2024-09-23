@@ -27,14 +27,22 @@ public class AuthService {
     private final JwtSecurityService jwtSecurityService;
     private final AuthenticationManager authenticationManager;
 
-    public AppUser register(RegisterRequestDto registerRequestDto) {
+    public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
         AppUser appUser = new AppUser();
         appUser.setEmail(registerRequestDto.getEmail());
         appUser.setFullName(registerRequestDto.getFullName());
         appUser.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
         appUser.setRole(AppRole.USER);
 
-        return appUserRepository.save(appUser);
+        AppUser savedUser = appUserRepository.save(appUser);
+
+        RegisterResponseDto responseDto = new RegisterResponseDto();
+        responseDto.setId(savedUser.getId());
+        responseDto.setFullName(savedUser.getFullName());
+        responseDto.setEmail(savedUser.getEmail());
+        responseDto.setRole(savedUser.getRole().name()); // Возвращаем строковое представление роли
+
+        return responseDto;
     }
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {

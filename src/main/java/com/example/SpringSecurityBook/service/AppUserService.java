@@ -33,4 +33,8 @@ public class AppUserService {
 
         return detailsService;
     }
+    public AppUser loadUserByEmail(String email) throws UsernameNotFoundException {
+        return appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+    }
 }

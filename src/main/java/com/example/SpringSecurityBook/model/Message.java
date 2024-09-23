@@ -11,11 +11,21 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "from_email", nullable = false)
-    private String fromEmail;
+//    @Column(name = "from_email", nullable = false)
+//    private String fromEmail;
+//
+//    @Column(name = "to_email", nullable = false)
+//    private String toEmail;
 
-    @Column(name = "to_email", nullable = false)
-    private String toEmail;
+// /изменение
+@ManyToOne
+@JoinColumn(name = "sender_id", nullable = false) // Связываем с таблицей пользователей
+private AppUser sender;
+
+    // /изменение
+    @ManyToOne
+    @JoinColumn(name = "recipient_id", nullable = false) // Связываем с таблицей пользователей
+    private AppUser recipient;
 
     @Column(name = "text", nullable = false)
     private String text;
